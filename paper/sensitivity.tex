@@ -1,0 +1,125 @@
+% This document is part of the rvSensitivity project.
+% Copyright 2020 the authors. All rights reserved.
+
+% to-do
+% -----
+% - draft
+% - send to friendlies
+% - post to arXiv
+% - profit
+
+% style notes
+% -----------
+% - use \, for multiplication
+% - put punctuation after equations as necessary, with "\hquad,". Use \hquad
+% - put term name definitions in \textsl{}, *not* quotations
+% - don't say "i.e.," say "that is,". Don't say "e.g.," say "for example,".
+% - ...[your pet peeve here]...
+
+\documentclass[10pt, letterpaper]{article}
+
+\usepackage{amsmath, bm, mathrsfs, amssymb}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[hidelinks,
+            colorlinks=true,
+            linkcolor=NavyBlue,
+            citecolor=darkgray,
+            urlcolor=NavyBlue]{hyperref}
+\usepackage{pifont}
+\usepackage{graphicx}
+\usepackage{doi}
+
+\usepackage{natbib}
+\bibliographystyle{hogg_abbrvnat}
+\setcitestyle{round,citesep={,},aysep={}}
+
+% text stuhh
+\newcommand{\documentname}{\textsl{Note}}
+\newcommand{\sectionname}{Section}
+\newcommand{\equationname}{equation}
+\newcommand{\notename}{Note}
+\renewcommand{\tablename}{Table}
+\newcommand{\acronym}[1]{{\small{#1}}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\foreign}[1]{\textsl{#1}}
+\newcommand{\etal}{\foreign{et~al.}}
+
+% math stuhh
+\newcommand{\hquad}{~~}
+\newcommand{\given}{\,|\,}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\T}{^{\!\mathsf{T}\!}}
+\newcommand{\inv}{^{-1}}
+\newcommand{\scalar}[1]{#1}
+\renewcommand{\vector}[1]{\boldsymbol{#1}}
+\newcommand{\tensor}[1]{\mathbf{#1}}
+\renewcommand{\matrix}[1]{\mathsf{#1}}
+\newcommand{\normal}{\mathcal{N}\!\,}
+
+% variables
+
+% Journal keys - kill me now
+\newcommand{\aj}{Astron.\,J.}
+\newcommand{\apj}{Astrophys.\,J.}
+\newcommand{\apjs}{Astrophys.\,J.\,Supp.\,Ser.}
+
+% page layout stuff
+\setlength{\topmargin}{-0.2in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\textheight}{9.35in}
+\setlength{\parindent}{\baselineskip}
+\setlength{\oddsidemargin}{-0.2in}
+\setlength{\textwidth}{4.3in}
+\raggedbottom\sloppy\sloppypar\frenchspacing
+
+% this might be crazy, but here's my number
+\setlength{\marginparsep}{0.15in}
+\setlength{\marginparwidth}{2.7in}
+\usepackage{marginfix} % necessary but possibly evil
+\newcounter{marginnote}
+\setcounter{marginnote}{0}
+\renewcommand{\footnote}[1]{\refstepcounter{marginnote}\textsuperscript{\themarginnote}\marginpar{\color{darkgray}\raggedright\footnotesize\textsuperscript{\themarginnote}#1}}
+\newcommand{\tfigurerule}{\rule{0pt}{1ex}\\ \rule{\marginparwidth}{0.5pt}\\ \rule{0pt}{0.25ex}}
+\newcommand{\bfigurerule}{\rule{0pt}{0.25ex}\\ \rule{\marginparwidth}{0.5pt}\\ \rule{0pt}{1ex}}
+\renewcommand{\caption}[1]{\parbox{\marginparwidth}{\footnotesize\textbf{\refstepcounter{figure}\figurename~\thefigure}: {#1}}}
+
+% kill these at submission
+\newcommand{\bedell}[1]{\textcolor{red}{[Bedell says: #1]}}
+\newcommand{\hogg}[1]{\textcolor{magenta}{[Hogg says: #1]}}
+
+\begin{document}
+
+\section*{What is the sensitivity of a \\
+  stellar radial-velocity observing program \\
+  to an orbital companion?}
+
+\noindent\textbf{David W. Hogg}\footnote{%
+  The authors would like to thank
+  [put names here]
+  for help with all these concepts.
+  This research was supported by the National Science Foundation and National Aeronautics and Space Administration.}\\
+{\footnotesize%
+  \textsl{Center for Cosmology and Particle Physics, Dept.\ Physics, New York University}\\
+  \textsl{Max-Planck-Institut f\"ur Astronomie, Heidelberg}\\
+  \textsl{Flatiron Institute, a division of the Simons Foundation}%
+}
+
+\medskip\noindent\textbf{Megan Bedell}\\
+{\footnotesize%
+  \textsl{Flatiron Institute, a division of the Simons Foundation}%
+}
+
+\paragraph{Abstract:}
+We use information theory thus and so...
+
+
+\section{Foo}
+
+Hello World!\footnote{Hopefully we will find a reason to cite \cite{wobble}.}
+
+% Render the references
+\clearmargin\clearpage\raggedright
+\bibliography{refs}
+
+\end{document}
