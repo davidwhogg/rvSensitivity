@@ -55,8 +55,10 @@
 \newcommand{\tensor}[1]{\mathbf{#1}}
 \renewcommand{\matrix}[1]{\mathsf{#1}}
 \newcommand{\normal}{\mathcal{N}\!\,}
-
-% variables
+\newcommand{\uniform}{\mathcal{U}\!\,}
+\newcommand{\unit}[1]{\mathrm{#1}}
+\newcommand{\BJD}{\unit{BJD}}
+\newcommand{\kms}{\unit{km}\,\unit{s}^{-1}}
 
 % Journal keys - kill me now
 \newcommand{\aj}{Astron.\,J.}
@@ -111,12 +113,65 @@
 }
 
 \paragraph{Abstract:}
-We use information theory thus and so...
+We find planets and binary stars by (among other techniques) the radial-velocity
+method.
+Here we use information theory to estimate---or really bound---the sensitivity
+of a planned or actual radial-velocity survey.
+We find interesting things.
 
+\section{Introduction}
 
-\section{Foo}
+Hello World!\footnote{Hopefully we will find a reason to cite
+  \cite{wobble} but this placeholder is just so that the bibliography
+  ``does something''.}
+Stuff and things.
 
-Hello World!\footnote{Hopefully we will find a reason to cite \cite{wobble}.}
+\section{The problem and solution}
+
+\paragraph{Problem:}
+Imagine that at $N$ barycentric times $t_n$ (given in $\BJD$, say) you have
+measured the barycentric radial velocity $v$ of a star with uncertainty $\sigma_n$
+(given in $\kms$, say). What is the sensitivity of this set of
+observations to a single orbital companion with radial-velocity amplitude $\kappa$
+orbiting at period $P$ and eccentricity $e$? Assume that the observer is located
+isotropically relative to targets or \foreign{vice versa}, and that we
+are not observing at any special time.
+
+\paragraph{Solution:}
+A single orbital companion can be parameterized by a velocity
+amplitude $\kappa$ (velocity units; proportional to $M\,\sin i$), a
+period $P$ (time units), an eccentricity $e$ (dimensionless), an
+argument of perihelion angle $\varpi$ (in radians), and a phase $t_0$
+(time). The last of these parameters could be the time at which the
+companion is at conjunction or it could be the time at pericenter, or
+it could be thought of as the zero of time. For any setting of these
+parameters, there is a prediction $v(t_n)$ for the barycentric radial velocity of
+the star at any time $t_n$ that looks like:
+\begin{equation}
+  v(t_n) = \kappa\,\xi(t_n - t_0; P, e, \varpi) + v_0
+  \hquad,
+\end{equation}
+where $\xi(\Delta t; P, e, \varpi)$ is a dimensionless radial-velocity
+prediction for the Kepler problem and $v_0$ is the relative radial
+velocity between this star and the Solar System barycenter.
+
+Although we don't know what priors to put on $P$ or $e$ or $\kappa$---and
+we don't need to put priors on any of these---we are told that we are to
+treat the angular and time distributions as isotropic.
+For this reason, we can assume that we do have prior pdfs over
+the argument of perihelion $\varpi$ and the reference time $t_0$:
+\begin{align}
+  p(\varpi) &= \uniform(\varpi\given 0, 2\pi) \\
+  p(t_0) &= \uniform(t_0\given t_{\min}, t_{\min}+P)
+  \hquad ,
+\end{align}
+where $\uniform(x\given a,b)$ is the uniform pdf for $x$ in the range $a<x<b$,
+and $t_{\min}$ is some chosen reference time (like, for example, the
+first time $t_1$ in the time series, but it could be anything).
+
+\section{Discussion}
+
+Frequentism vs Bayesianism, maybe?
 
 % Render the references
 \clearmargin\clearpage\raggedright
