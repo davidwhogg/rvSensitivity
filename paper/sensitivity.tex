@@ -50,10 +50,18 @@
 \newcommand{\dd}{\mathrm{d}}
 \newcommand{\T}{^{\!\mathsf{T}\!}}
 \newcommand{\inv}{^{-1}}
+\newcommand{\setof}[1]{\left\{{#1}\right\}}
+\newcommand{\mean}[1]{\left<{#1}\right>}
+\newcommand{\expectation}[1]{\mathbb{E}\!\left[{#1}\right]}
 \newcommand{\scalar}[1]{#1}
 \renewcommand{\vector}[1]{\boldsymbol{#1}}
+\newcommand{\vv}{\vector{v}}
+\newcommand{\valpha}{\vector{\alpha}}
+\newcommand{\vtheta}{\vector{\theta}}
 \newcommand{\tensor}[1]{\mathbf{#1}}
+\newcommand{\tC}{\tensor{C}}
 \renewcommand{\matrix}[1]{\mathsf{#1}}
+\newcommand{\mA}{\matrix{A}}
 \newcommand{\normal}{\mathcal{N}\!\,}
 \newcommand{\uniform}{\mathcal{U}\!\,}
 \newcommand{\unit}[1]{\mathrm{#1}}
@@ -152,8 +160,17 @@ the star at any time $t_n$ that looks like:
   \hquad,
 \end{equation}
 where $\xi(\Delta t; P, e, \varpi)$ is a dimensionless radial-velocity
-prediction for the Kepler problem and $v_0$ is the relative radial
-velocity between this star and the Solar System barycenter.
+prediction for the Kepler problem\footnote{We need to cite into some classics,
+  and maybe also our own packages by DFM and APW. Note that there is some subtlety
+  to the definition of $\xi()$ in amplitude: It really should have units of
+  $\dd v/\dd\kappa$, and the definition of $\xi()$ sets the definition or
+  interpretation of $\kappa$.)}
+and $v_0$ is the relative radial velocity between this binary's barycenter and
+the Solar System barycenter.
+Note that the parameters $\kappa, v_0$ enter the expectation linearly, and
+the parameters $t_0, P, e, \varpi$ enter nonlinearly. This distinction is very
+important for what follows\footnote{And we have written overly extensively on
+  this elsewhere CITE LUGER, HOGG.}.
 
 Although we don't know what priors to put on $P$ or $e$ or $\kappa$---and
 we don't need to put priors on any of these---we are told that we are to
@@ -161,15 +178,111 @@ treat the angular and time distributions as isotropic.
 For this reason, we can assume that we do have prior pdfs over
 the argument of perihelion $\varpi$ and the reference time $t_0$:
 \begin{align}
-  p(\varpi) &= \uniform(\varpi\given 0, 2\pi) \\
-  p(t_0) &= \uniform(t_0\given t_{\min}, t_{\min}+P)
+  p(t_0\given P) &= \uniform(t_0\given t_{\min}, t_{\min}+P) \\
+  p(\varpi) &= \uniform(\varpi\given 0, 2\pi)
   \hquad ,
 \end{align}
-where $\uniform(x\given a,b)$ is the uniform pdf for $x$ in the range $a<x<b$,
-and $t_{\min}$ is some chosen reference time (like, for example, the
-first time $t_1$ in the time series, but it could be anything).
+where $\uniform(x\given a,b)$ is the uniform pdf for $x$ in the range
+$a<x<b$, and $t_{\min}$ is some chosen reference time (like, for
+example, the first time $t_1$ in the time series, but it could be
+anything\footnote{Note that we don't lose any generality by choosing
+  this $t_{\min}$: The function is cyclic in $t_0$ with period $P$. So
+  a uniform pdf in any time interval of length $P$ would be equivalent
+  here.}).
+The prior $p(t_0\given P)$ on $t_0$ is conditional on the period $P$
+because the period $P$ appears in its explicit form.
 
-\section{Discussion}
+With these parts, we will build two matrices. The first is the $N\times N$
+\textsl{inverse covariance matrix} or sometimes \textsl{precision matrix} $\tC_v\inv$
+\begin{equation}
+  \tC_v\inv = \left[\begin{array}{c c c c c}
+      1/\sigma_1^2 & 0 & 0 & \cdots & 0 \\
+      0 & 1/\sigma_2^2 & 0 & \cdots & 0 \\
+      0 & 0 & 1/\sigma_3^2 & \cdots & 0 \\
+      \vdots & \vdots & \vdots &    & \vdots \\
+      0 & 0 & 0 & \cdots & 1/\sigma_N^2
+    \end{array}\right]
+\hquad ,
+\end{equation}
+and the second is the $N\times 2$ \textsl{design matrix} $\mA$
+\begin{equation}
+  \mA(\valpha) = \left[\begin{array}{c c}
+      \xi(t_1 - t_0; P, e, \varpi) & 1 \\
+      \xi(t_2 - t_0; P, e, \varpi) & 1 \\
+      \xi(t_3 - t_0; P, e, \varpi) & 1 \\
+      \vdots & \vdots \\
+      \xi(t_N - t_0; P, e, \varpi) & 1
+    \end{array}\right]
+\hquad ,
+\end{equation}
+where the design matrix\footnote{DESCRIBE SYNTACTIC TYPOGRAPHY HERE.}
+$\mA$ is a function of not just the times $\setof{t_n}_{n=1}^N$
+but also the nonlinear parameters $\valpha\T\equiv[t_0, P, e, \varpi]$.
+Note that the design matrix is the derivative of the velocity $v$
+expectations with respect to the linear parameters $\vtheta\T\equiv [\kappa, v_0]$,
+where the velocity expectations have been assembled, effectively,
+into a column vector $\vv$ and the linear parameters into a column vector $\vtheta$.
+That is,
+\begin{equation}
+  \mA(\valpha) = \left[\frac{\dd \vv}{\dd\vtheta}\right]_{\valpha}
+\hquad .
+\end{equation}
+
+Now the best possible $2\times 2$ precision matrix
+$\tC_\theta\inv$ for the parameters $\vtheta$ is just a
+projection of the $N\times N$ precision matrix $\tC_v\inv$ for the
+data, projected with the derivatives
+\begin{equation}
+  \tC_\theta\inv(\valpha) = \left[\frac{\dd\vv}{\dd\vtheta}\right]_{\valpha}\T\cdot\tC_v\inv\cdot\left[\frac{\dd\vv}{\dd\vtheta}\right]_{\valpha}
+\hquad .
+\end{equation}
+Remember that $\tC_\theta\inv$ is an implicit function of the
+nonlinear parameters $\valpha$.
+
+We don't have priors on period $P$ or eccentricity $e$, but we do on
+the fiducial time $t_0$ and argument of perihelion $\varpi$ so we can
+take an expectation for $\tC_\theta\inv$ over these latter parameters.
+\begin{align}
+  \mean{\tC_\theta\inv} &= \expectation{\tC_\theta\inv\given P, e} \\
+                        &= \int \tC_\theta\inv\,p(t_0\given P)\,p(\varpi)\,\dd t_0\,\dd\varpi
+\hquad .
+\end{align}
+This expectation integral gives the mean amount of information we
+expect about the linear parameters $\vtheta$ given the observations
+and the expected prior pdfs over $t_0, \varpi$.
+Since we have only integrated over these latter two parameters, the
+mean information $\mean{\tC_\theta\inv}$ is implicitly a function of
+the remaining parameters $P, e$.
+
+Now how do we use this $2\times 2$ mean precision matrix $\mean{\tC_\theta\inv}$?
+
+HOGG WORDS HERE
+
+\paragraph{Discussion and implementation notes:}
+This solution assumed a very large number of things. We will discuss these
+below in \sectionname~\ref{sec:discussion}.
+
+Don't explicitly make $\tC_v\inv$.
+
+Use solve not inv.
+
+What happens if you expect covariant noise?
+
+\paragraph{Examples:}
+randomly observed vs over a decade; information at some P, e.
+
+uniform observing worse?
+
+\section{Discussion}\label{sec:discussion}
+
+We have explained a, b, c. We have shown x, y, and z.
+
+It is odd that the problem statement never refers to the data we got at all.
+In this sense, what is computed here is a forecast; it is a statement of the
+best you could do if all your assumptions hold. What assumptions are these?
+
+It literally is the best you could do:
+This is the Cram\'er--Rao bound or the Fisher information.
 
 Frequentism vs Bayesianism, maybe?
 
