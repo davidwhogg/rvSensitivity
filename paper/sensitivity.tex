@@ -75,13 +75,13 @@
 \newcommand{\apjs}{Astrophys.\,J.\,Supp.\,Ser.}
 
 % page layout stuff
-\setlength{\topmargin}{-0.2in}
+\setlength{\topmargin}{0.0in}
 \setlength{\headheight}{0in}
 \setlength{\headsep}{0in}
-\setlength{\textheight}{9.35in}
 \setlength{\parindent}{\baselineskip}
 \setlength{\oddsidemargin}{-0.2in}
 \setlength{\textwidth}{4.3in}
+\setlength{\textheight}{2\textwidth}
 \raggedbottom\sloppy\sloppypar\frenchspacing
 
 % this might be crazy, but here's my number
@@ -103,7 +103,7 @@
 
 \section*{What is the sensitivity of a \\
   stellar radial-velocity observing program \\
-  to an orbital companion?}
+  to an orbiting planet?}
 
 \noindent\textbf{David W. Hogg}\footnote{%
   The authors would like to thank
@@ -135,13 +135,77 @@ Hello World!\footnote{Hopefully we will find a reason to cite
   ``does something''.}
 Stuff and things.
 
-Relationships between search and discovery.
+The astronomical community has found a boatload of exoplanets in the
+last decade or so\footnote{WHAT TO CITE?}.
+A lot of these have been either found, or confirmed, or characterized,
+using radial-velocity measurements.
+The orbiting planet modulates the radial velocity of the star because
+both the planet and the star orbit a common center of mass\footnote{CITE SOME REVIEW?}.
 
-The definition of a discovery as a 5-sigma (say) companion.
+In the exoplanet community, there are a few conventions that we want
+to highlight or challenge.
+The first is that exoplanet science is often broken into a first stage
+of \textsl{search} (or \textsl{discovery}), and a second stage of
+\textsl{characterization}.
+In fact these two stages are extremely similar, in the sense that an
+exoplanet is discovered, in some sense, by the point that it can be
+characterized.
+For example, if it is decided that a planet detection is viable if it is,
+say, ten-sigma, that is equivalent to saying that you know the amplitude
+of the radial-velocity sigma with an uncertainty of ten-percent or better.
+So in this \documentname\ we will not distinguish between search and
+characterization.
+Or, more correctly, we will treat the question of sensitivity of a
+project to a planet is a question about how well that planet could be
+characterized.
 
-The fact that we will have to make manyfold assumptions.
+The second convention we want to highlight is that most questions that
+have been asked about sensitivities of planet searches to planets have
+been \foreign{ex post facto} and empirical.
+They involve things like empirical false alarm
+probabilities\footnote{MB WHAT TO CITE?}  estimated by randomizing the
+data in various ways.
+This is all laudable and important.
+But sometimes we want to understand what an exoplanet project or survey
+or program could or should detect. We want to forecast. And we want to use
+forecasts to make good design decisions. We want to plan to use future
+expensive observing resources sensibly and efficiently.
+Here we lay out what that kind of forecasting might look like.
+
+Don't read us wrong, however: In general, empirical estimates of
+uncertainties, completeness, contamination, and sensitivity are safer
+than theoretical estimates!
+Forecasting---coming as it does \emph{before} any data---is necessarily
+a theoretical activity.
+As such, it requires that we make strong assumptions about what our data
+\emph{will be like}.
+We will have to make many assumptions, and most of them will turn out to
+be wrong in detail.
+Unavoidably, forecasts are summaries of our assumptions (about hardware,
+observing conditions, and our targets).
+
+As we will discuss below, our dependence on our assumptions is a bit weaker
+if we treat forecasts as \emph{bounds}. When a forecast is seen not as telling
+us how an experiment \emph{will do} but rather what an experiment \emph{could do}
+in the best of all possible worlds, the forecast is slightly less conditional
+on our strongest assumptions. But of course at the  expense of a lot of
+its specificity.
+
+We wrote this \documentname\ to help us think about how we might help
+the \textsl{Terra Hunting Experiment}\footnote{CITE} plan a big,
+ambitious, long-term project to discover and characterize Earth-like
+planets around Sun-like stars on year-ish-period orbits. But of course the
+methods presented below are applicable to any new project, and can also be
+used to compare empirical \foreign{ex post facto} sensitivity estimates to
+theoretical bounds for current and past projects.
 
 \section{The problem and solution}
+
+As we note above, we consider the question of planet detection to
+reduce to the question of sensitivity of a survey to (say) the
+velocity amplitude of the detected planet. For this reason, we can solve
+our forecasting problems by solving a single forecasting problem, which we
+state now.
 
 \paragraph{Problem:}
 Imagine that at $N$ barycentric times $t_n$ (given in $\BJD$, say) you have
@@ -278,12 +342,6 @@ That is
 where (for you geometry nerds) $\vu_\kappa$ is the unit vector in the
 $\vtheta$ space pointing in the $\kappa$ direction.
 
-You might think that the \emph{inverse} of the squared uncertainty in $\kappa$ would be
-the $1,1$ element of the precision matrix $\mean{\tC_\theta\inv}$.
-This element is the inverse squared uncertainty \emph{conditioned} on
-a chosen value of the other linear parameter $v_0$.
-The $1,1$ element of the inverse of the precision matrix
-
 \paragraph{Discussion and implementation notes:}
 This solution assumed a very large number of things. We will discuss these
 below in \sectionname~\ref{sec:discussion}. Most importantly, it effectively
@@ -293,7 +351,8 @@ set of data on any real star. So in this sense, the solution is a bound.
 It is literally the Cram\'er--Rao bound\footnote{HOGG CITE}, and you might
 do way worse than this bound, but for extremely deep statistical and
 mathematical reasons, you can't do better (unless you are wrong about your
-measurement uncertainties $\setof{\sigma_n}_{n=1}^N$.
+measurement uncertainties $\setof{\sigma_n}_{n=1}^N$ or are willing to live
+with substantial bias).
 
 The solution involved some linear algebra (to get the $2\times 2$
 precision matrix $\tC_\theta\inv$), and a double integral over $t_0,
@@ -310,9 +369,19 @@ in the integrand will (except in rare cases) be very smooth, so you don't
 have to do this integral on an extremely fine grid or with any cleverness,
 really.
 
+In the above, we inverted the (mean) inverse covariance matrix. Huh?
+You might think that the \emph{inverse} of the squared uncertainty in $\kappa$ would be
+the $1,1$ element of the precision matrix $\mean{\tC_\theta\inv}$.
+This element is the inverse squared uncertainty \emph{conditioned} on
+a chosen value of the other linear parameter $v_0$.
+The $1,1$ element of the inverse of the precision matrix is HOGG SENTENCE FRAGMENT.
+
+And, relatedly, why did we average $\tC_\theta\inv$? Why not $\tC_\theta$?
+They are different!
+
 HOGG What happens if you expect covariant noise?
 
-\paragraph{Examples:}
+\section{Examples}
 randomly observed vs over a decade; information at some P, e.
 
 uniform observing worse?
