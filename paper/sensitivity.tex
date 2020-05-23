@@ -55,6 +55,7 @@
 \newcommand{\expectation}[1]{\mathbb{E}\!\left[{#1}\right]}
 \newcommand{\scalar}[1]{#1}
 \renewcommand{\vector}[1]{\boldsymbol{#1}}
+\newcommand{\vu}{\vector{\hat{u}}}
 \newcommand{\vv}{\vector{v}}
 \newcommand{\valpha}{\vector{\alpha}}
 \newcommand{\vtheta}{\vector{\theta}}
@@ -134,6 +135,12 @@ Hello World!\footnote{Hopefully we will find a reason to cite
   ``does something''.}
 Stuff and things.
 
+Relationships between search and discovery.
+
+The definition of a discovery as a 5-sigma (say) companion.
+
+The fact that we will have to make manyfold assumptions.
+
 \section{The problem and solution}
 
 \paragraph{Problem:}
@@ -178,7 +185,8 @@ treat the angular and time distributions as isotropic.
 For this reason, we can assume that we do have prior pdfs over
 the argument of perihelion $\varpi$ and the reference time $t_0$:
 \begin{align}
-  p(t_0\given P) &= \uniform(t_0\given t_{\min}, t_{\min}+P) \\
+  p(t_0\given P) &= \uniform(t_0\given t_{\min}, t_{\min}+P)
+  \\
   p(\varpi) &= \uniform(\varpi\given 0, 2\pi)
   \hquad ,
 \end{align}
@@ -243,7 +251,8 @@ We don't have priors on period $P$ or eccentricity $e$, but we do on
 the fiducial time $t_0$ and argument of perihelion $\varpi$ so we can
 take an expectation for $\tC_\theta\inv$ over these latter parameters.
 \begin{align}
-  \mean{\tC_\theta\inv} &= \expectation{\tC_\theta\inv\given P, e} \\
+  \mean{\tC_\theta\inv} &= \expectation{\tC_\theta\inv\given P, e}
+  \\
                         &= \int \tC_\theta\inv\,p(t_0\given P)\,p(\varpi)\,\dd t_0\,\dd\varpi
 \hquad .
 \end{align}
@@ -254,19 +263,54 @@ Since we have only integrated over these latter two parameters, the
 mean information $\mean{\tC_\theta\inv}$ is implicitly a function of
 the remaining parameters $P, e$.
 
-Now how do we use this $2\times 2$ mean precision matrix $\mean{\tC_\theta\inv}$?
+Now how do we use this $2\times 2$ mean precision matrix
+$\mean{\tC_\theta\inv}$?  There are many things to say here, but the
+expected squared uncertainty $\sigma^2_\kappa$ in the velocity
+amplitude $\kappa$ will be the $1,1$ element of the inverse of this
+precision matrix.
+That is
+\begin{align}
+  \sigma^2_\kappa &= \vu_\kappa\T\cdot\mean{\tC_\theta\inv}\inv\cdot\vu_\kappa
+  \\
+  \vu_\kappa &\equiv \left[\begin{array}{c} 1 \\ 0 \end{array}\right]
+  \hquad,
+\end{align}
+where (for you geometry nerds) $\vu_\kappa$ is the unit vector in the
+$\vtheta$ space pointing in the $\kappa$ direction.
 
-HOGG WORDS HERE
+You might think that the \emph{inverse} of the squared uncertainty in $\kappa$ would be
+the $1,1$ element of the precision matrix $\mean{\tC_\theta\inv}$.
+This element is the inverse squared uncertainty \emph{conditioned} on
+a chosen value of the other linear parameter $v_0$.
+The $1,1$ element of the inverse of the precision matrix
 
 \paragraph{Discussion and implementation notes:}
 This solution assumed a very large number of things. We will discuss these
-below in \sectionname~\ref{sec:discussion}.
+below in \sectionname~\ref{sec:discussion}. Most importantly, it effectively
+assumed that the noise on the radial-velocity measurements is zero mean,
+Gaussian, and uncorrelated. None of these things is true in any real
+set of data on any real star. So in this sense, the solution is a bound.
+It is literally the Cram\'er--Rao bound\footnote{HOGG CITE}, and you might
+do way worse than this bound, but for extremely deep statistical and
+mathematical reasons, you can't do better (unless you are wrong about your
+measurement uncertainties $\setof{\sigma_n}_{n=1}^N$.
 
-Don't explicitly make $\tC_v\inv$.
+The solution involved some linear algebra (to get the $2\times 2$
+precision matrix $\tC_\theta\inv$), and a double integral over $t_0,
+\varpi$ (to get the expected precision matrix
+$\mean{\tC_\theta\inv}$), and then another inversion (to extract the
+expected squared uncertainty $\sigma^2_\kappa$). Each of these has
+implementation issues or considerations. One is that, since it
+is amazingly sparse, you should never explicitly construct $\tC_v\inv$
+in any code you write. You should just use equivalent element-wise
+weighting.
+Another implementation consideration is that you need to do a two-dimensional
+integral. This integral is over a uniform distribution, and the information
+in the integrand will (except in rare cases) be very smooth, so you don't
+have to do this integral on an extremely fine grid or with any cleverness,
+really.
 
-Use solve not inv.
-
-What happens if you expect covariant noise?
+HOGG What happens if you expect covariant noise?
 
 \paragraph{Examples:}
 randomly observed vs over a decade; information at some P, e.
