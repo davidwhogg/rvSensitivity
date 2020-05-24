@@ -276,7 +276,7 @@ With these parts, we will build two matrices. The first is the $N\times N$
     \end{array}\right]
 \hquad ,
 \end{equation}
-and the second is the $N\times 2$ \textsl{design matrix} $\mA$
+and the second is the $N\times 2$ \textsl{design matrix} $\mA(\valpha)$
 \begin{equation}
   \mA(\valpha) = \left[\begin{array}{c c}
       \xi(t_1 - t_0; P, e, \varpi) & 1 \\
@@ -288,7 +288,7 @@ and the second is the $N\times 2$ \textsl{design matrix} $\mA$
 \hquad ,
 \end{equation}
 where the design matrix\footnote{DESCRIBE SYNTACTIC TYPOGRAPHY HERE.}
-$\mA$ is a function of not just the times $\setof{t_n}_{n=1}^N$
+$\mA(\valpha)$ is a function of not just the times $\setof{t_n}_{n=1}^N$
 but also the nonlinear parameters $\valpha\T\equiv[t_0, P, e, \varpi]$.
 Note that the design matrix is the derivative of the velocity $v$
 expectations with respect to the linear parameters $\vtheta\T\equiv [\kappa, v_0]$,
@@ -310,37 +310,42 @@ data, projected with the derivatives
 \end{equation}
 Remember that $\tC_\theta\inv$ is an implicit function of the
 nonlinear parameters $\valpha$.
-
-We don't have priors on period $P$ or eccentricity $e$, but we do on
-the fiducial time $t_0$ and argument of perihelion $\varpi$ so we can
-take an expectation for $\tC_\theta\inv$ over these latter parameters.
+Given that there is a linear nuisance paramter $v_0$ and we only care
+about the orbital-companion velocity amplitude $\kappa$, we have to
+slice this. But the slicing isn't trivial: The relevant slice is the
+slice of the uncertainty variance tensor $\tC_\theta$, not the slice
+of the precision matrix $\tC_\theta\inv$:
 \begin{align}
-  \mean{\tC_\theta\inv} &= \expectation{\tC_\theta\inv\given P, e}
-  \\
-                        &= \int \tC_\theta\inv\,p(t_0\given P)\,p(\varpi)\,\dd t_0\,\dd\varpi
-\hquad .
-\end{align}
-This expectation integral gives the mean amount of information we
-expect about the linear parameters $\vtheta$ given the observations
-and the expected prior pdfs over $t_0, \varpi$.
-Since we have only integrated over these latter two parameters, the
-mean information $\mean{\tC_\theta\inv}$ is implicitly a function of
-the remaining parameters $P, e$.
-
-Now how do we use this $2\times 2$ mean precision matrix
-$\mean{\tC_\theta\inv}$?  There are many things to say here, but the
-expected squared uncertainty $\sigma^2_\kappa$ in the velocity
-amplitude $\kappa$ will be the $1,1$ element of the inverse of this
-precision matrix.
-That is
-\begin{align}
-  \sigma^2_\kappa &= \vu_\kappa\T\cdot\mean{\tC_\theta\inv}\inv\cdot\vu_\kappa
+  \sigma^2_\kappa &= \vu_\kappa\T\cdot\tC_\theta\cdot\vu_\kappa
   \\
   \vu_\kappa &\equiv \left[\begin{array}{c} 1 \\ 0 \end{array}\right]
   \hquad,
 \end{align}
-where (for you geometry nerds) $\vu_\kappa$ is the unit vector in the
-$\vtheta$ space pointing in the $\kappa$ direction.
+where $\vu_\kappa$ is the unit vector that ``points in the direction of''
+or projects out the velocity amplitude $\kappa$,
+and $\tC_\theta$ is the inverse\footnote{CITE
+  Albrecht here, and also note that you shouldn't invert in general,
+  but in low-d problems like this it is fine.} of the precision matrix $\tC_\theta\inv$.
+
+The system velocity $v_0$ is not our only nuisance parameter; we have
+the fiducial time $t_0$ and argument of perihelion $\varpi$.
+Because we expect isotropy in space and time, we have our prior pdfs
+over these nuisances. We can
+take an expectation value over these for the information in the velocity
+amplitude $\kappa$
+\begin{align}
+  \mean{\frac{1}{\sigma^2_\kappa}} &= \expectation{\frac{1}{\sigma^2_\kappa}\given P, e}
+  \\
+  &= \int \frac{1}{\sigma^2_\kappa}\,p(t_0\given P)\,p(\varpi)\,\dd t_0\,\dd\varpi
+\hquad .
+\end{align}
+This expectation integral gives the mean amount of information (inverse variance) we
+expect about the velocity amplitude $\kappa$ given the observations
+and the expected prior pdfs over $t_0, \varpi$.
+Since we have only integrated over these latter two parameters
+(and not \emph{everything}), the
+mean information $\mean{\sigma^{-2}_\kappa}$ is implicitly a function of
+the remaining parameters $P, e$.
 
 \paragraph{Discussion and implementation notes:}
 This solution assumed a very large number of things. We will discuss these
@@ -357,27 +362,28 @@ with substantial bias).
 The solution involved some linear algebra (to get the $2\times 2$
 precision matrix $\tC_\theta\inv$), and a double integral over $t_0,
 \varpi$ (to get the expected precision matrix
-$\mean{\tC_\theta\inv}$), and then another inversion (to extract the
-expected squared uncertainty $\sigma^2_\kappa$). Each of these has
-implementation issues or considerations. One is that, since it
+$\mean{\sigma^{-2}_\kappa}$). Both of these steps has
+implementation considerations. One is that, since it
 is amazingly sparse, you should never explicitly construct $\tC_v\inv$
 in any code you write. You should just use equivalent element-wise
 weighting.
-Another implementation consideration is that you need to do a two-dimensional
+The other other consideration is that you need to do a two-dimensional
 integral. This integral is over a uniform distribution, and the information
 in the integrand will (except in rare cases) be very smooth, so you don't
 have to do this integral on an extremely fine grid or with any cleverness,
 really.
 
-In the above, we inverted the (mean) inverse covariance matrix. Huh?
+We used that the squared uncertainty in $\kappa$ is the $1,1$ element of the
+noise variance $\tC_\theta$.
 You might think that the \emph{inverse} of the squared uncertainty in $\kappa$ would be
-the $1,1$ element of the precision matrix $\mean{\tC_\theta\inv}$.
-This element is the inverse squared uncertainty \emph{conditioned} on
-a chosen value of the other linear parameter $v_0$.
+the $1,1$ element of the precision matrix $\tC_\theta\inv$.
+It isn't!
+This latter is the inverse squared uncertainty \emph{conditioned} on
+a \emph{chosen value} of the other linear parameter $v_0$.
 The $1,1$ element of the inverse of the precision matrix is HOGG SENTENCE FRAGMENT.
 
-And, relatedly, why did we average $\tC_\theta\inv$? Why not $\tC_\theta$?
-They are different!
+And, relatedly, why did we average (take the expectation value of)
+$1/sigma^2_\kappa$? Why not $\sigma^2_\kappa$ or even $\sigma_\kappa$?
 
 HOGG What happens if you expect covariant noise?
 
