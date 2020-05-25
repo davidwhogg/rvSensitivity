@@ -323,11 +323,16 @@ of the precision matrix $\tC_\theta\inv$:
   \vu_\kappa &\equiv \left[\begin{array}{c} 1 \\ 0 \end{array}\right]
   \hquad,
 \end{align}
-where $\vu_\kappa$ is the unit vector that ``points in the direction of''
-or projects out the velocity amplitude $\kappa$,
-and $\tC_\theta$ is the inverse\footnote{CITE
-  Albrecht here, and also note that you shouldn't invert in general,
-  but in low-d problems like this it is fine.} of the precision matrix $\tC_\theta\inv$.
+where $\vu_\kappa$ is the unit vector that ``points in the direction
+of'' or projects out the velocity amplitude $\kappa$, and $\tC_\theta$
+is the inverse\footnote{CITE Albrecht here, and also note that you
+  shouldn't invert in general, but in low-d problems like this it is
+  fine. In this problem, you would have to be careful if you had only
+  $N=1$ radial-velocity observation, or some kind of perfectly
+  periodic observing strategy. Then you can get degeneracies between
+  $\kappa$ and $v_0$; $\tC_\theta\inv$ becomes non-invertible; you
+  have to do something zero-safe. HOGG DO WE RETURN TO THIS ISSUE BELOW?}
+of the precision matrix $\tC_\theta\inv$.
 
 The system velocity $v_0$ is not our only nuisance parameter; we have
 the fiducial time $t_0$ and argument of perihelion $\varpi$.
@@ -389,10 +394,18 @@ $1/sigma^2_\kappa$? Why not $\sigma^2_\kappa$ or even $\sigma_\kappa$?
 
 HOGG What happens if you expect covariant noise?
 
-\section{Examples}
-randomly observed vs over a decade; information at some P, e.
+HOGG Finally, some comments about units!
 
-uniform observing worse?
+\section{Examples}
+Randomly placed observations over, say, 5 years. Information vs P, e.
+
+Are there eccentricities that are hard to see?
+
+Information at a particular P, e as a function of survey duration. Show
+that we learn faster than linearly with time in the early years.
+
+Zoom in on some particular periods and show that periodic observing is
+somewhat worse than random observing?
 
 \section{Discussion}\label{sec:discussion}
 
