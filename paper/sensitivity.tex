@@ -325,13 +325,16 @@ of the precision matrix $\tC_\theta\inv$:
 \end{align}
 where $\vu_\kappa$ is the unit vector that ``points in the direction
 of'' or projects out the velocity amplitude $\kappa$, and $\tC_\theta$
-is the inverse\footnote{CITE Albrecht here, and also note that you
-  shouldn't invert in general, but in low-d problems like this it is
-  fine. In this problem, you would have to be careful if you had only
+is the inverse\footnote{There is an extremely valuable discussion of the manipulation
+  of information matrices in \cite{albrecht}, and especially in the presence of
+  nuisance parameters. They emphasize that you
+  shouldn't just invert these matrices because it isn't zero-safe. However,
+  in low-dimensional problems like this it is almost always
+  fine. That said (in this problem) you would have to be careful if you had only
   $N=1$ radial-velocity observation, or some kind of perfectly
   periodic observing strategy. Then you can get degeneracies between
   $\kappa$ and $v_0$; $\tC_\theta\inv$ becomes non-invertible; you
-  have to do something zero-safe. HOGG DO WE RETURN TO THIS ISSUE BELOW?}
+  have to do something zero-safe in that case. HOGG DO WE RETURN TO THIS ISSUE BELOW?}
 of the precision matrix $\tC_\theta\inv$.
 
 The system velocity $v_0$ is not our only nuisance parameter; we have
