@@ -3,11 +3,17 @@
 
 % questions and to-do
 % -------------------
+% - re-scope to address multiple-star systems (ex. SDSS/APOGEE RVs) 
+%   and/or astrometric planet searches?
 % - should we be more explicit in the notation about what depends on what?
+% - how should noise be notated - Gaussian term in equation 1?
+% - currently correlated noise is a sidebar discussion - should we actually 
+%   work through the general example of a non-diagonal covariance matrix?
 % - perform and write up experiments
 % - draft discussion
 % - send to friendlies
 % - post to arXiv
+% - ???
 % - profit
 
 % style notes
@@ -67,9 +73,14 @@
 \newcommand{\mA}{\matrix{A}}
 \newcommand{\normal}{\mathcal{N}\!\,}
 \newcommand{\uniform}{\mathcal{U}\!\,}
+
+% astronomy stuhh
 \newcommand{\unit}[1]{\mathrm{#1}}
 \newcommand{\BJD}{\unit{BJD}}
 \newcommand{\kms}{\unit{km}\,\unit{s}^{-1}}
+\newcommand{\ms}{\unit{m}\,\unit{s}^{-1}}
+\newcommand{\rv}{\acronym{RV}}
+
 
 % Journal keys - kill me now
 \newcommand{\aj}{Astron.\,J.}
@@ -140,7 +151,7 @@ Stuff and things.
 The astronomical community has found a boatload of exoplanets in the
 last decade or so\footnote{WHAT TO CITE?}.
 A lot of these have been either found, or confirmed, or characterized,
-using radial-velocity measurements.
+using radial-velocity (\rv) measurements.
 The orbiting planet modulates the radial velocity of the star because
 both the planet and the star orbit a common center of mass\footnote{CITE SOME REVIEW?}.
 
@@ -154,12 +165,13 @@ exoplanet is discovered, in some sense, by the point that it can be
 characterized.
 For example, if it is decided that a planet detection is viable if it is,
 say, ten-sigma, that is equivalent to saying that you know the amplitude
-of the radial-velocity sigma with an uncertainty of ten-percent or better.
+of the radial-velocity sigma with an uncertainty of ten-percent or better, 
+after having marginalized over all other unknown parameters.
 So in this \documentname\ we will not distinguish between search and
 characterization.
 Or, more correctly, we will treat the question of sensitivity of a
 project to a planet is a question about how well that planet could be
-characterized.
+characterized. 
 
 The second convention we want to highlight is that most questions that
 have been asked about sensitivities of planet searches to planets have
@@ -265,6 +277,9 @@ anything\footnote{Note that we don't lose any generality by choosing
   here.}).
 The prior $p(t_0\given P)$ on $t_0$ is conditional on the period $P$
 because the period $P$ appears in its explicit form.
+
+HOGG generalize the above to make vectors of orbital parameters for the 
+case of multiple companions?
 
 With these parts, we will build two matrices. The first is the $N\times N$
 \textsl{inverse covariance matrix} or sometimes \textsl{precision matrix} $\tC_v\inv$
@@ -395,20 +410,80 @@ The $1,1$ element of the inverse of the precision matrix is HOGG SENTENCE FRAGME
 And, relatedly, why did we average (take the expectation value of)
 $1/sigma^2_\kappa$? Why not $\sigma^2_\kappa$ or even $\sigma_\kappa$?
 
-HOGG What happens if you expect covariant noise?
+HOGG What happens if you expect covariant noise? (consider generalizing in the 
+problem/solution above instead of leaving this discussion-only)
 
 HOGG Finally, some comments about units!
 
 \section{Examples}
+
+\subsection{Measuring the Mass of a Transiting Planet}
+
+This is a subset of the general problem outlined above. In this case, 
+we know (or rather, we have a strong informative prior on) the period 
+and orbital phase of the planet. Depending on the quality and quantity 
+of the transit observations, we may even know all of the orbital parameters 
+aside from the \rv\ semi-amplitude $\kappa$.
+
+Some math about the priors \& how they play in.
+
+Relative precision and accuracy of different observing schemes: random, 
+uniform (say 1x per night for the duration of 1 orbital period), quadrature. 
+Compare to \cite{Burt2018}.
+
+\subsection{Detecting Long-Period Planets}
+
+Consider the case where we'd like to find planets with orbital periods 
+on the order of the survey duration.
+
 Randomly placed observations over, say, 5 years. Information vs P, e.
 
-Are there eccentricities that are hard to see?
+Are there eccentricities that are hard to see? Show a contour plot for 
+eccentricity vs. phase that illustrates the intuitive truth that (for example) 
+if an eccentric planet has a peristron passage during a heavily observed 
+period, it will be easier to find than it would be at other phases. BEDELL 
+find the Wright(?) paper to cite here.
 
 Information at a particular P, e as a function of survey duration. Show
 that we learn faster than linearly with time in the early years.
 
 Zoom in on some particular periods and show that periodic observing is
 somewhat worse than random observing?
+
+\subsection{A Blind RV Survey for Planets of Unknown Periods}
+
+Same observing schemes as above.
+
+In this case we really want to marginalize over the entire range of 
+potential orbital periods to get a realistic estimate of the uncertainty 
+on the \rv\ semi-amplitude. 
+
+Note that obtaining (say) 10\% level precision on $\kappa$ requires MANY more 
+observations here than it does when the orbital period is known a priori.
+
+Show that we can make a likelihood periodogram. Highlight the differences between
+this \& a traditional Lomb-Scargle periodogram.
+
+Discuss: this is a lower bound. You may fail to find a planet that should be 
+discoverable if you are not sufficiently exploring the full parameter space 
+(e.g. your search strategy begins \& ends with a zero-eccentricity assumption, 
+but there's a highly eccentric planet hiding in the data).
+
+\subsection{Observing a Spotted Star}
+
+Let's say we know that the star we want to search for companions is highly 
+active, and we expect the \rv\ observations to be contaminated by 
+quasi-periodic correlated noise. We know (from previous observations or 
+a very good grasp of other analogous stars) what the timescales are for 
+the stellar rotation and spot evolution. Under these conditions we can modify 
+the white-noise covariance matrix to include a Gaussian process term.
+
+Show how this flows into (lack of) sensitivity to planets at critical timescales. 
+Probably this will be at the stellar rotation period, but also at aliases.
+
+Show how changing the observing scheme throws the aliases into different places, 
+so to some extent we can engineer what the ``blind spots'' of the survey will be.
+
 
 \section{Discussion}\label{sec:discussion}
 
