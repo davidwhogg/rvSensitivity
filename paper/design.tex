@@ -1,0 +1,144 @@
+% This document is part of the ComovingStars project.
+% Copyright 2020 the authors.
+
+% TODO:
+% - Is it "comoving" or "co-moving"?
+
+% Notes:
+% - Comoving color twins?
+% - Cross-match with spectroscopic surveys...
+
+\PassOptionsToPackage{usenames,dvipsnames}{xcolor}
+\documentclass[modern]{aastex63}
+
+% Load common packages
+\usepackage{microtype}  % ALWAYS!
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+
+% Hogg's issues need to be addressed.
+\renewcommand{\twocolumngrid}{\onecolumngrid} % guess what this does HAHAHA!
+\setlength{\parindent}{1.1\baselineskip}
+\addtolength{\topmargin}{-0.2in}
+\addtolength{\textheight}{0.4in}
+\sloppy\sloppypar\raggedbottom\frenchspacing % trust in Hogg
+
+% text macros
+\newcommand{\project}[1]{\textsl{#1}}
+
+\shorttitle{designing for exoplanet yield}
+\shortauthors{bedell and hogg}
+
+\begin{document}
+
+\title{Designing an extreme-precision radial-velocity survey for exoplanet yield}
+
+\author[0000-0001-9907-7742]{Megan Bedell}
+\affiliation{Flatiron Institute, a division of the
+             Simons Foundation, 162 Fifth Avenue, New York, NY 10010, USA}
+
+\author[0000-0003-2866-9403]{David~W.~Hogg}
+\affiliation{Flatiron Institute, a division of the
+             Simons Foundation, 162 Fifth Avenue, New York, NY 10010, USA}
+\affiliation{Max-Planck-Institut f\"ur Astronomie,
+             K\"onigstuhl 17, D-69117 Heidelberg, Germany}
+\affiliation{Center for Cosmology and Particle Physics,
+             Department of Physics,
+             New York University, 726 Broadway,
+             New York, NY 10003, USA}
+
+\begin{abstract}\noindent
+% Context
+New instruments are being built and new projects are being planned
+that will make possible the detection of truly Earth-like exoplanets,
+with masses, periods, host stars, and insolation all very like those of
+Earth.
+% Aims
+Here we provide ideas and tools for the experimental design of such
+projects, with the idea that they might be designed to maximize planet
+yield, but also be usable for measuring exoplanet population
+parameters.
+% Methods
+Our main contribution is to articulate and operationalize the
+conditions that must be met for a radial-velocity signal to be adopted
+or accepted as an exoplanet discovery.
+These conditions are:
+\textsl{(1)}~Significance of the detected radial-velocity signal,
+\textsl{(2)}~specificity with respect to other orbital-companion explanations, and
+\textsl{(3)}~distinguishability from non-companion stellar-variability signals.
+We suggest particular implementations of these three conditions.
+Our implementations are approximations to what is really done in
+exoplanet-discovery contexts, but because our suggestions are
+algorithmic and reproducible, they can be used in experimental-design
+work.
+% Results
+We find that there is little difference in practice between
+computationally inexpensive frequentist discovery procedures and their
+more expensive Bayesian counterparts.
+We find, generically, that it is useful for the observational time
+baselines between radial-velocity observations to be heterogeneous;
+clustered observations produce higher yields than either unclustered
+or regular-grid observation plans.
+% Conclusions
+In the end, experimental design ought to depend on each individual
+project's capabilities, objectives, and expectations; we can't solve
+these problems for others. We are providing tools intended to help
+diverse projects make their own choices better.
+\end{abstract}
+
+% \keywords{}
+
+\section*{~}\clearpage
+\section{Introduction} \label{sec:intro}
+
+Planets have been found by one h*ck of a lot of different methods!
+
+If we had to boil it down, we would see three kinds of arguments or
+conditions that have to be met:
+
+1.
+
+2.
+
+3.
+
+\section{Operationalizing detection conditions}
+
+Hello World!
+
+\section{Example experimental design experiments}
+
+Hello World!
+
+\section{Discussion}
+
+Hello World!
+
+\acknowledgments
+
+It is a pleasure to thank
+  Dan Foreman-Mackey (Flatiron),
+  Lily Zhao (Yale),
+  and
+  the \project{Terra Hunting Experiment} team
+for help with all the things.
+
+\software{
+    % Astropy \citep{astropy, astropy:2018},
+    % exoplanet \citep{exoplanet:exoplanet},
+    % gala \citep{gala},
+    % IPython \citep{ipython},
+    % numpy \citep{numpy},
+    % pymc3 \citep{Salvatier2016},
+    % schwimmbad \citep{schwimmbad:2017},
+    % scipy \citep{scipy},
+    % theano \citep{theano},
+    % thejoker \citep{thejoker, Price-Whelan:2019a}
+}
+
+\bibliographystyle{aasjournal}
+\bibliography{refs}
+
+\end{document}
