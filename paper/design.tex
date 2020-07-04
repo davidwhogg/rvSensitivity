@@ -1,12 +1,9 @@
-% This document is part of the ComovingStars project.
+% This document is part of the RvSensitivity project.
 % Copyright 2020 the authors.
 
 % TODO:
-% - Is it "comoving" or "co-moving"?
 
 % Notes:
-% - Comoving color twins?
-% - Cross-match with spectroscopic surveys...
 
 \PassOptionsToPackage{usenames,dvipsnames}{xcolor}
 \documentclass[modern]{aastex63}
@@ -26,7 +23,10 @@
 \sloppy\sloppypar\raggedbottom\frenchspacing % trust in Hogg
 
 % text macros
+\newcommand{\foreign}[1]{\textsl{#1}}
 \newcommand{\project}[1]{\textsl{#1}}
+\newcommand{\acronym}[1]{{\small{#1}}}
+\newcommand{\rv}{\acronym{RV}}
 
 \shorttitle{designing for exoplanet yield}
 \shortauthors{bedell and hogg}
@@ -93,24 +93,82 @@ diverse projects make their own choices better.
 \section*{~}\clearpage
 \section{Introduction} \label{sec:intro}
 
-Planets have been found by one h*ck of a lot of different methods!
+...Planets have been found by one h*ck of a lot of different methods!
+...Comment here on some history of the development from \acronym{FFT}s
+through Bayesian evidences.
 
-If we had to boil it down, we would see three kinds of arguments or
-conditions that have to be met:
+...Note that this subject is important for two reasons. One is that
+there really are controversies in the literature about detections, and
+the language for arguing about these things could be standardized and
+the considerations made clear.
 
-1.
+...But also we need to make critical experimental design decisions,
+which involve substantial financial and observing resources. These
+need to be made in a framework in which we can predict exoplanet
+yields under different assumptions. That is our specific motivation here.
 
-2.
-
-3.
+If we had to boil the whole long literature down to basic principles,
+we would see three kinds of arguments or conditions that have to be
+met for a signal in an \rv\ data set to be considered strong evidence
+for an exoplanet discovery:
+\begin{description}
+\item[Detected]
+The exoplanet \rv\ signal must be significantly detected in the
+data. This means, in practice, that the null (no exoplanet signal at
+all) must be ruled out at good confidence, or (equivalently) that the
+radial-velocity amplitude must be detected with some high fractional
+precision (some number of sigma, say).
+\item[Characterizable]
+The exoplanet period (and perhaps other orbital parameters) must be
+determined with some precision and (more importantly) not confused
+with substantially longer-period, substantially shorter-period, or
+(say) beat frequencies from other companions. That is, the exoplanet
+signal should be uniquely determined in the sense of having orbital
+parameters that are strongly preferred (statistically) to alternative
+exoplanet or binary-companion explanations.
+\item[Not stellar variability]
+The exoplanet explanation of the \rv\ signal should be strongly
+preferred to any (of some reasonable, computable set of) non-exoplanet
+stellar-variability signals, for example stellar rotation,
+asteroseismic modes, star spots, or stellar activity.
+\end{description}
+In what follows, we operationalize these and then use our
+operationalized conditions to perform some toy experimental-design
+studies to show how they might be used in practice.
 
 \section{Operationalizing detection conditions}
 
-Hello World!
+\subsection{Detected}
+
+Frequentist approach...
+
+Bayesian approach will not be very different!
+
+\subsection{Characterizable}
+
+Frequentist approach...
+
+Bayesian approach...
+
+The Bayesian approach is much more expensive and involves more
+questionable assumptions. Under what conditions will it be
+substantially better?
+
+\subsection{Not stellar variability}
+
+First business: What kinds of stellar variabilities are tractable, or
+convertable into a hypothesis test or parameter estimation? This list
+will change as more things are discovered and worked out in the
+literature.
+
+Again, frequentist and Bayesian approaches...
 
 \section{Example experimental design experiments}
 
-Hello World!
+You have five years; you can observe $M$ stars, each $N$ times. Should
+you increase $N$ and reduce $M$ or \foreign{vice versa}?
+
+...Other simple questions?
 
 \section{Discussion}
 
