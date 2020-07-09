@@ -9,11 +9,10 @@
 \documentclass[modern]{aastex63}
 
 % Load common packages
-\usepackage{microtype}  % ALWAYS!
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
-\usepackage{mathrsfs}
+%\usepackage{amsmath}
+%\usepackage{amsfonts}
+%\usepackage{amssymb}
+%\usepackage{mathrsfs}
 
 % Hogg's issues need to be addressed.
 \renewcommand{\twocolumngrid}{\onecolumngrid} % guess what this does HAHAHA!
@@ -139,7 +138,70 @@ In what follows, we operationalize these and then use our
 operationalized conditions to perform some toy experimental-design
 studies to show how they might be used in practice.
 
+\section{Setup and generalities}
+
+Hogg: Here say things about the data, the model, and priors.
+
+We have $N$ radial-velocity observations $v_n$ taken at barycentric times
+$t_n$.
+These measurements could be real data or---in the context of experimental
+design---artificial data that might be expected under some theoretical
+predictions.
+Each observation $v_n$ has an observational uncertainty variance
+$\sigma^2_n$ but the times are arbitrarily precisely known.
+The observational uncertainty variances $\sigma^2_n$ are, in this case,
+just from the individual, independent observation that delivered $v_n$
+and will not include variance from stellar variabilities.
+In what follows, stellar variabilities will be explicitly modeled.
+
+The generative model for the data is
+\begin{equation}
+  v_n = \mbox{companions} + \mbox{variability} + \mbox{noise}
+  \quad ,
+\end{equation}
+where ``$\mbox{companions}$'' stands in for the predicted \rv\ signal
+from the orbital companions (exoplanets, binary partner stars, and so
+on),
+``$\mbox{variability}$'' stands in for the predicted \rv\ signal from
+stellar variabilities (star spots, stellar rotation, activity,
+asteroseismology, and so on),
+and
+the ``$\mbox{noise}$'' is the independent noise in the obervation,
+which by assumption will be drawn from a zero-mean Gaussian with
+variance $\sigma^2_n$.
+
+The orbital-companion prediction is parameterized by a parameter
+vector $\omega$ for the planet of interest, and a vector $\Omega$ for
+all the \emph{other} planets and companions in the system.
+That is, we will not assume that there is only one planet in the
+system (or not in general).
+But the parameter vector $\Omega$ describing all the other planets in
+the system (all those other than our planet of interest) will be
+considered a nuisance paramter vector, to be profiled or marginalized
+out.
+In the simplest case, the orbital-companion prediction would be a sum
+of gravitational two-body orbits.
+It could be the output of a few-body simulation though instead if the
+system under study involves significant orbital interactions.
+
+The stellar-variability prediction will be parameterized by a vector
+$\alpha$ of variability parameters.
+In the simplest case this might be a stellar ``jitter'' term.
+In complex cases, this could be a sunspot model or the amplitudes,
+frequencies, and coherence times of a set of asteroseismic modes.
+The parameter vector $\alpha$ could also include some kind of
+covariance-function parameters between some indicator of stellar
+activity, such as an absorption-line depth, and the \rv\ signal.
+In most stellar-variability models, the stellar variability prediction
+will be stochastic, or a probability density or pdf for the \rv\
+signal contribution, while the companion prediction will usually be
+deterministic.
+
+Say what kinds of operations you can do as a frequentist or a bayesian.
+
 \section{Operationalizing detection conditions}
+
+Hogg: Use what's in the above section to shorten this section.
 
 \subsection{Detected}
 
