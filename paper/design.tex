@@ -9,10 +9,10 @@
 \documentclass[modern]{aastex63}
 
 % Load common packages
-%\usepackage{amsmath}
-%\usepackage{amsfonts}
-%\usepackage{amssymb}
-%\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
 
 % Hogg's issues need to be addressed.
 \renewcommand{\twocolumngrid}{\onecolumngrid} % guess what this does HAHAHA!
@@ -26,6 +26,21 @@
 \newcommand{\project}[1]{\textsl{#1}}
 \newcommand{\acronym}[1]{{\small{#1}}}
 \newcommand{\rv}{\acronym{RV}}
+
+% math macros
+\newcommand{\given}{\,|\,}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\T}{^{\!\mathsf{T}\!}}
+\newcommand{\inv}{^{-1}}
+\newcommand{\scalar}[1]{#1}
+\renewcommand{\vector}[1]{\boldsymbol{#1}}
+\renewcommand{\tensor}[1]{\mathbf{#1}}
+\renewcommand{\matrix}[1]{\mathsf{#1}}
+\newcommand{\normal}{\mathcal{N}\!\,}
+\newcommand{\like}{\mathscr{L}}
+
+% symbols
+\newcommand{\vv}{\vector{v}}
 
 \shorttitle{tools for designing exoplanet surveys}
 \shortauthors{bedell and hogg}
@@ -153,10 +168,20 @@ The observational uncertainty variances $\sigma^2_n$ are, in this case,
 just from the individual, independent observation that delivered $v_n$
 and will not include variance from stellar variabilities.
 In what follows, stellar variabilities will be explicitly modeled.
+We will assemble the $N$ \rv\ observations into an $N$-vector (column vector) $\vv$
+\begin{equation}
+  \vv\T \equiv \begin{bmatrix} v_1 & v_2 & v_3 & \cdots & v_N \end{bmatrix}
+  \quad ,
+\end{equation}
+and the noise variance estimates into an $N\times N$ variance tensor
+\begin{equation}
+  \tSigma \equiv \begin{bmatrix} foo \end{bmatrix}
+  \quad .
+\end{equation}
 
 The generative model for the data is
 \begin{equation}
-  v_n = \mbox{companions} + \mbox{variability} + \mbox{noise}
+  \vv = \mbox{companions} + \mbox{variability} + \mbox{noise}
   \quad ,
 \end{equation}
 where ``$\mbox{companions}$'' stands in for the predicted \rv\ signal
