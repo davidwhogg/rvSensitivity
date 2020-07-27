@@ -38,9 +38,11 @@
 \renewcommand{\matrix}[1]{\mathsf{#1}}
 \newcommand{\normal}{\mathcal{N}\!\,}
 \newcommand{\like}{\mathscr{L}}
+\newcommand{\lnlike}{\ln\like}
 
 % symbols
 \newcommand{\vv}{\vector{v}}
+\newcommand{\tSigma}{\tensor{\Sigma}}
 
 \shorttitle{tools for designing exoplanet surveys}
 \shortauthors{bedell and hogg}
@@ -155,8 +157,6 @@ studies to show how they might be used in practice.
 
 \section{Setup and generalities}
 
-Hogg: Here say things about the data, the model, and priors.
-
 We have $N$ radial-velocity observations $v_n$ taken at barycentric times
 $t_n$.
 These measurements could be real data or---in the context of experimental
@@ -175,7 +175,11 @@ We will assemble the $N$ \rv\ observations into an $N$-vector (column vector) $\
 \end{equation}
 and the noise variance estimates into an $N\times N$ variance tensor
 \begin{equation}
-  \tSigma \equiv \begin{bmatrix} foo \end{bmatrix}
+  \tSigma \equiv \begin{bmatrix} \sigma_1^2 & 0 & 0 & \cdots & 0 \\
+                                 0 & \sigma_2^2 & 0 & \cdots & 0 \\
+                                 0 & 0 & \sigma_3^2 & \cdots & 0 \\
+                                 \vdots & \vdots & \vdots & & \vdots \\
+                                 0 & 0 & 0 & \cdots & \sigma_N^2 \end{bmatrix}
   \quad .
 \end{equation}
 
@@ -192,8 +196,8 @@ stellar variabilities (star spots, stellar rotation, activity,
 asteroseismology, and so on),
 and
 the ``$\mbox{noise}$'' is the independent noise in the obervation,
-which by assumption will be drawn from a zero-mean Gaussian with
-variance $\sigma^2_n$.
+which by assumption will be drawn from an $N$-dimensional
+multivariate Gaussian with mean zero and variance $\tSigma$.
 
 The orbital-companion prediction is parameterized by a parameter
 vector $\omega$ for the planet of interest, and a vector $\Omega$ for
@@ -222,7 +226,15 @@ will be stochastic, or a probability density or pdf for the \rv\
 signal contribution, while the companion prediction will usually be
 deterministic.
 
-Say what kinds of operations you can do as a frequentist or a bayesian.
+Importantly we are going to assume that we can compute, for any setting
+of the parameters $(\omega, \Omega, \alpha)$, a probability density
+(pdf) for the data vector $\vv$. That is, we have a likelihood function
+\begin{equation}
+\lnlike(\omega,\Omega,\alpha) \equiv \ln p(\vv\given\omega,\Omega,\alpha)
+\quad .
+\end{equation}
+
+Say what kinds of operations you can do as a frequentist or a Bayesian.
 
 \section{Operationalizing detection conditions}
 
