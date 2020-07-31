@@ -123,7 +123,17 @@ which involve substantial financial and observing resources. These
 need to be made in a framework in which we can predict exoplanet
 yields under different assumptions. That is our specific motivation here.
 
-If we had to boil the whole long literature down to basic principles,
+...For example, you could have a survey that does X or a survey that does Y.
+It isn't obvious without some kind of forecast which will yield more planets
+of some type Z that you care about.
+
+...So here we are going to forecast. And if
+we are going to forecast, we need to make a well-defined, automated method
+for deciding that we do or could detect an exoplanet of type Z in a data
+set with certain properties.
+
+If we had to boil the whole long literature of exoplanet detection
+down to basic principles,
 we would see three kinds of arguments or conditions that have to be
 met for a signal in an \rv\ data set to be considered strong evidence
 for an exoplanet discovery:
@@ -371,9 +381,28 @@ Again, frequentist and Bayesian approaches...
 \section{Example experimental design experiments}
 
 You have five years; you can observe $M$ stars, each $N$ times. Should
-you increase $N$ and reduce $M$ or \foreign{vice versa}?
+you increase $N$ and reduce $M$ or \foreign{vice versa}? There will
+clearly be a sweet spot in $(N,M)$ space: If you only observe one star
+($M=1$), you can (at most) discover one planetary system. If you
+observe many stars, but you only observe each star once ($N=1$), you
+can't find any planet around any of them. How do we find the sweet
+spot, and will it be close to our intuitive guesses?
 
-...Other simple questions?
+...Note: [WHERE TO PUT THIS?]
+These experiments will be one-sided in the following sense: We will
+not do exhaustive searches of every possible alternative
+orbital-architecture or stellar-variability false positive. That is, we
+won't do the full due dilligence in these toy experiments that one might
+want to do in a real exoplanet survey. However, the results will be one-sided
+in the following sense: If an exoplanet wouldn't pass the tests we are
+performing here, it won't perform the more stringent tests that some future
+survey might do. So one can think of the experiments we are performing here
+as being minimal requirements---necessary but not sufficient---for exoplanet
+discovery.
+
+You have decided on $N$ and $M$. Should you observe the $M$ stars as close
+to uniformly or periodically as you can? Or should you observe them with
+a stochastic---or even deliberately clustered---cadence?
 
 \section{Discussion}
 
